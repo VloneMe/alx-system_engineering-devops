@@ -1,2 +1,2 @@
 #!/bin/bash
-rmdir /tmpp/my_first_directory
+rm -r /tmpp/my_first_directory
