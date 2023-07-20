@@ -1,7 +1,7 @@
 
 # Command line for the win
 
-## steps you followed to use the SFTP command-line
+## Steps followed to use the SFTP command-line
 
 #### 1. Opened Terminal:
         For accessing the SFTP Client Tool.
