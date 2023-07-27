@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
+# Bash script that displays content of the current directory
 
-for file in *; do
-    if [[ ! "$file" =~ ^\. ]]; then
-        name_after_dash=$(echo "$file" | cut -d'-' -f2-)
-
-        echo "$name_after_dash"
-    fi
-done
+File="$(ls)"
+for i in $File; do echo "${i#*-}"; done
