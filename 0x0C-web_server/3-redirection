@@ -1,20 +1,39 @@
 #!/usr/bin/env bash
+#  Redirection bash script
 
-# First Installing nginx
+# This will Install nginx
 apt-get update -y
 apt-get install nginx -y
 
-# This configure the redirection page
+# This create a basic HTML file containing "Hello World!"
+echo "<html><body>Hello World!</body></html>" > /var/www/html/index.html
+
+# This checks Nginx if not already running
+if [ ! -f /var/run/nginx.pid ]; then
+    # Then starts Nginx
+    /usr/sbin/nginx
+fi
+
+# This checks if Nginx listening on port 80
+if ! netstat -tuln | grep ":80 " > /dev/null; then
+    echo "Nginx is not listening on port 80. Please check the configuration."
+    exit 1
+fi
+
+# This create a new Nginx configuration file for redirection
 echo "server {
     listen 80;
     server_name _;
     location /redirect_me {
-        return 301 https://francisntima.tech/redirect_me;
+        return 301 https://example.com/newpage; # Replace with the desired redirection URL
     }
 }" > /etc/nginx/sites-available/redirect
 
-# makes sure that default is removed
-# And restarts the server
+# This will reate a symbolic link to enable the configuration
 ln -s /etc/nginx/sites-available/redirect /etc/nginx/sites-enabled/
-nginx -t && service nginx restart
+nginx -t # Test for Nginx configuration
+nginx -s reload # Reload Nginx to apply the new configuration
+
+# Clean up default Nginx configuration files
 rm /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+service nginx restart # Restart Nginx
