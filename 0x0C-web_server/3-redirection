@@ -5,11 +5,12 @@
 apt-get update -y
 apt-get install nginx -y
 
-# This create a basic HTML file containing "Hello World!"
-echo "<html><body>Hello World!</body></html>" > /var/www/html/index.html
 
 # Gain root privileges On server.
 sudo -i
+
+# This create a basic HTML file containing "Hello World!"
+echo "<html><body>Hello World!</body></html>" > /var/www/html/index.html
 
 # Using sed to add a new location block in the Nginx default configuration
 sed -i "s/server_name _;/server_name _;\n\tlocation \/redirect_me {\n\t\treturn 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n\t}/" /etc/nginx/sites-available/default
