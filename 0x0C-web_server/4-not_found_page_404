@@ -1,27 +1,22 @@
 #!/usr/bin/env bash
+#  Redirection bash script
 
-# Installation of nginx
+# This will Install nginx
 apt-get update -y
 apt-get install nginx -y
 
-# This creates a custom 404 HTML page
-echo '<html><body>Ceci n'\''est pas une page</body></html>' > /var/www/html/custom_404.html
 
-# This modifies the Nginx site configuration to handle 404 errors
-echo "server {
-    listen 80;
-    server_name _;
+# Gain root privileges On server.
+sudo -i
 
-    # Handle 404 errors and serve the custom 404 page
-    error_page 404 /custom_404.html;
+# This create a basic HTML file containing "Hello World!"
+echo "<html><body>Hello World!</body></html>" > /var/www/html/index.html
 
-    location = /custom_404.html {
-        root /var/www/html;
-        internal;
-    }
+# This creates a custom 404 error page with a message.
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
 
-    # Your existing configuration...
-}" > /etc/nginx/sites-available/default
+# Use sed to modify the Nginx default configuration to include the custom 404 error page.
+sed -i "s/server_name _;/server_name _;\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}\n\tlocation \/redirect_me {\n\t\treturn 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n\t}/" /etc/nginx/sites-available/default
 
-# This will restart the Nginx service to apply the changes
-service nginx restart
+# This start the Nginx service
+sudo service nginx start
