@@ -7,7 +7,7 @@ sudo apt-get update
 sudo apt-get install -y nginx
 
 # Redirection file.
-str="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/vloneme permanent;"
+str="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/VloneMe permanent;"
 sudo sed -i "s/server_name _;/$str/" /etc/nginx/sites-enabled/default
 
 # custom 404 not found page
