@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Resolves port listening issue
+
+# This removes the symbolic link to disable 
+# the default site configuration
+rm /etc/nginx/sites-enabled/default
+
+# This creates a symbolic link to enable the default site configuration
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# This restarts the Nginx web server to apply the changes
+service nginx restart
