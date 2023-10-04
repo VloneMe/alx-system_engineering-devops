@@ -1,8 +1,35 @@
 #!/usr/bin/env bash
+# Web Server Setup Configuration file with
+# Redirect and Custom 404 Page Configuration.
+
+# Update package lists and install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Redirection Configuration
+redirection_config="server_name _;\n\trewrite ^/redirect_me https://github.com/VloneMe permanent"
+sudo sed -i "s|server_name _|$redirection_config|" /etc/nginx/sites-enabled/default
+
+# Create a custom 404 Not Found page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
+
+# Add "Hello, World!" to index.html
+echo "Hello, World!" | sudo tee /var/www/html/index.html
+
+# Configure Nginx to use the custom 404 page
+nginx_custom_config="listen 80 default_server;\n\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
+sudo sed -i "s|listen 80 default_server;|$nginx_custom_config|" /etc/nginx/sites-enabled/default
+
+# Check Nginx configuration for syntax errors
+sudo nginx -t
+
+# Restart Nginx to apply changes
+sudo service nginx restart
+
 # HTTP response contains a custom header
 
 # This creats an HTTP response header
-sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
+sudo sed -i "/server_name _/a add_header X-Served-By \$HOSTNAME;" /etc/nginx/sites-enabled/default
 
 # Testing configurations for syntax errors
 sudo nginx -t
