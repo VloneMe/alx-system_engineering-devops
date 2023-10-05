@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Install and configure HAproxy on your lb-01 server.
 
 # Update package list
 apt-get -y update
@@ -10,9 +11,9 @@ apt-get -y install haproxy
 server_config=\
 "
 frontend  francisntima_start
-          bind *:80
-          mode http
-          default_backend francisntima_end
+        bind *:80
+        mode http
+        default_backend francisntima_end
 backend francisntima_end
         balance roundrobin
         server 171311-web-01 100.25.37.0:80 check
