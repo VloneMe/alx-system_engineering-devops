@@ -14,7 +14,7 @@ sudo sed -i "s|server_name _|$redirection_config|" /etc/nginx/sites-enabled/defa
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
 
 # Add "Hello, World!" to index.html
-echo "Hello, World!" | sudo tee /var/www/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Configure Nginx to use the custom 404 page
 nginx_custom_config="listen 80 default_server;\n\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
