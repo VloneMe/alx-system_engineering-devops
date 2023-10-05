@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Update package list
+apt-get -y update
+
+# Install HAProxy
+apt-get -y install haproxy
+
+# Define HAProxy configuration
+server_config=\
+"
+frontend  francisntima_start
+          bind *:80
+          mode http
+          default_backend francisntima_end
+backend francisntima_end
+        balance roundrobin
+        server 171311-web-01 100.25.37.0:80 check
+        server 171311-web-02 54.162.38.26:80 check
+"
+
+# Append the configuration to the HAProxy config file
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# Enable HAProxy to start at boot
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# Check HAProxy configuration for syntax errors
+haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Restart the HAProxy service to apply the new configuration
+service haproxy restart
