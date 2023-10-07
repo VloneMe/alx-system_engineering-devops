@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# This checks for subdomain and DNS records
+
+# Store the second argument (list of subdomains) in the 'sdms' variable
+sds=$2
+
+# Check if there is only one argument provided (the domain)
+if [ "$#" -eq 1 ]
+then
+    # If only the domain is provided, set 'sdms' to the default list of subdomains
+    sdms="www lb-01 web-01 web-02"
+fi
+
+# Loop through each subdomain specified in 'sdms'
+for sdm in $sdms
+do
+    # Use 'dig' to query DNS records for the current subdomain and domain
+    # 'grep' and 'awk' are used to extract the relevant information
+    output=$(dig "$sdm.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{ print "is a " $4 " record and points to " $5}')
+
+    # Print the information about the current subdomain
+    echo "The subdomain $sdm $output"
+done
+
