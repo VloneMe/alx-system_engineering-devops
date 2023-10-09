@@ -10,11 +10,11 @@ apt-get -y install haproxy
 # Define HAProxy configuration
 server_config=\
 "
-frontend  francisntima_start
+frontend  http_in
         bind *:80
         mode http
-        default_backend francisntima_end
-backend francisntima_end
+        default_backend servers
+backend servers
         balance roundrobin
         server 171311-web-01 100.25.37.0:80 check
         server 171311-web-02 54.162.38.26:80 check
