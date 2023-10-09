@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Update package information and install Certbot
+sudo apt update && sudo apt install -y certbot
+
+# Stop any existing web server (e.g., Nginx)
+sudo systemctl stop nginx
+
+# Stop HAProxy if it's already running
+sudo systemctl stop haproxy
+
+# Request SSL certificate using Certbot for your subdomain (replace with your actual subdomain)
+sudo certbot certonly --standalone -d www.francisntima.tech
+
+# Check HAProxy configuration for syntax errors (replace with the correct config file path)
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Start HAProxy
+sudo systemctl start haproxy
+
+# Reload HAProxy to apply the new SSL certificate (replace with your actual config file path)
+sudo systemctl reload haproxy
+
+# Optionally, restart HAProxy (in case reload doesn't work)
+# sudo systemctl restart haproxy
+
+# You may also want to restart the web server (e.g., Nginx) if you had stopped it
+# sudo systemctl start nginx
+
+# Output a message to indicate the script has finished
+echo "SSL termination with HAProxy configuration completed."

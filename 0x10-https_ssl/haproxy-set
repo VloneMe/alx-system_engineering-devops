@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-sudo apt update && sudo apt install -y certbot
-
-sudo systemctl stop nginx && sudo service nginx stop
-
-sudo certbot certonly-standalone -d www.francisntima.tech
