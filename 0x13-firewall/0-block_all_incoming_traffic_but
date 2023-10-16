@@ -2,14 +2,14 @@
 # FireWall Configuration
 
 # status check
-sudo ufw status
+# sudo ufw status
 
 # if is enabled disbled it before starting configuration
 # to Avoid being knocked out of the server Accidentally
 # By your own rules :)
 # Always do configs then after allow the firewall to work(enabled).
 
-sudo ufw disable
+# sudo ufw disable
 
 # Block all incoming traffic requests
 sudo ufw default deny incoming
