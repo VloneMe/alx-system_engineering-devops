@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# FireWall Configuration
+
+# status check
+sudo ufw status
+
+# if is enabled disbled it before starting configuration
+# to Avoid being knocked out of the server Accidentally
+# By your own rules :)
+# Always do configs then after allow the firewall to work(enabled).
+
+sudo ufw disable
+
+# Block all incoming traffic requests
+sudo ufw default deny incoming
+
+# This allowstraffic out from the server with no input
+sudo ufw default allow outgoing
+
+# Establishes SSH secured on TCP connection
+# for login back to the server
+sudo ufw allow 22/tcp
+
+# For the following will allow both incoming and Outgoing Traffic
+# Establishes HTTP on TCP connection 
+sudo ufw allow  80/tcp
+
+# Establishes HTTPs on TCP connection 
+sudo ufw allow  443/tcp
+
+# Afterall setup then Enable your firewall
+sudo ufw enable
