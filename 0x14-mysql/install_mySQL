@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# This script installs MySQL 5.7 on both web-01 and web-02 servers.
+
+# Update the package lists
+apt update
+
+# Add the MySQL GPG key (Corrected)
+apt-key add mySql_Server_V5.7.key
+sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu bionic mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
+
+# Update the package lists again
+apt update
+
+# Check the available versions
+apt-cache policy mysql-server
+
+# Install MySQL 5.7 (Please note the package name changes)
+apt-get install mysql-client=5.7* mysql-server=5.7* -y
+
+# Check the MySQL service status
+service mysql status
