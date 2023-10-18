@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Simple login script without password
+
+sudo mysql -uroot -p
