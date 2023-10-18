@@ -1,0 +1,3 @@
+server_id = 1
+log_bin = /var/log/mysql/mysql_bin_log.log
+binlog_do_db = tyrell_corp
