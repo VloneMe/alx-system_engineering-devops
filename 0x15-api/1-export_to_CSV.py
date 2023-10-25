@@ -7,34 +7,30 @@ import csv
 from requests import get
 from sys import argv
 
-"""
-A function to fetch data from the API and export it to a CSV file
-"""
-def api_to_csv(user_id):
-    url = "https://jsonplaceholder.typicode.com/"
-    user = get(url + "users/{}".format(user_id)).json()
-    tasks = get(url + "todos?userId={}".format(user_id)).json()
+# Define a function to retrieve data from the API and export it to CSV
+def export_todo_list_to_csv(employee_id):
+    # Define the base URL of the REST API
+    api_base_url = "https://jsonplaceholder.typicode.com/"
 
-    """
-    # Create a new CSV file with the user's ID as the filename
-    """
-    with open("{}.csv".format(user_id), 'w', newline='') as csvfile:
-        file_stream = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+    # Make an API request to fetch employee information
+    employee_info = get(api_base_url + "users/{}".format(employee_id)).json()
 
-        """
-        # Write the CSV header row
-        """
-        file_stream.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+    # Make an API request to fetch the employee's TODO list
+    todo_list = get(api_base_url + "todos?userId={}".format(employee_id)).json()
 
-        """
-        # Iterate through tasks and write each task's information to the CSV file
-        """
-        for task in tasks:
-            file_stream.writerow([user_id, user.get("username"), task.get("completed"), task.get("title")])
+    # Open a CSV file for writing, using the employee_id as the filename
+    with open("todo_list_{}.csv".format(employee_id), 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+
+        # Write the CSV file with relevant data
+        for task in todo_list:
+            csv_writer.writerow([employee_id, employee_info.get("username"),
+                                  task.get("completed"),
+                                  task.get("title")])
 
 
+# Check if the script is run as the main program
 if __name__ == "__main__":
-    """
-    # Extract the employee ID from the command-line arguments
-        and call the 'api_to_csv' function """
-    api_to_csv(int(argv[1]))
+    # Parse the command-line argument as the employee_id
+    employee_id = int(argv[1])
+    export_todo_list_to_csv(employee_id)
