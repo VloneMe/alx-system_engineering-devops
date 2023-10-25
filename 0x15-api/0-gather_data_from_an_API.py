@@ -16,7 +16,7 @@ def get_data_api(user_id):
     done = []
     url = "https://jsonplaceholder.typicode.com/"
 
-    """# Get user information by making an HTTP GET request 
+    """# Get user information by making an HTTP GET request
         to the API and convert the response to JSON """
     user = get(url + "users/{}".format(user_id)).json()
 
