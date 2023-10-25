@@ -10,6 +10,8 @@ from sys import argv
 """
 # Define a function to get data from the API for a specific employee ID
 """
+
+
 def get_data_api(user_id):
     done = []
     url = "https://jsonplaceholder.typicode.com/"
@@ -37,7 +39,10 @@ def get_data_api(user_id):
     for task in done:
         print("\t {}".format(task))
 
+
 """ # Check if the script is being executed as the main program """
+
+
 if __name__ == "__main__":
     """# Extract the employee ID from the command-line arguments
         and call the 'get_data_api' function """
