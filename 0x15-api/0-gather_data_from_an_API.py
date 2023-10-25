@@ -4,39 +4,41 @@ A script that, using this REST API, for a given employee ID,
 returns information about his/her TODO list progress.
 """
 
-import requests
-import sys
+from requests import get
+from sys import argv
 
-def get_employee_todo_list(employee_id):
-    # Define the API URL
-    base_url = 'https://jsonplaceholder.typicode.com'
-    endpoint = f'/users/{employee_id}/todos'
-    url = base_url + endpoint
+"""
+# Define a function to get data from the API for a specific employee ID
+"""
+def get_data_api(user_id):
+    done = []
+    url = "https://jsonplaceholder.typicode.com/"
 
-    try:
-        # Send a GET request to the API
-        response = requests.get(url)
+    """# Get user information by making an HTTP GET request 
+        to the API and convert the response to JSON """
+    user = get(url + "users/{}".format(user_id)).json()
 
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            todos = response.json()
+    """ # Get TODO list tasks for the specified
+        user and convert the response to JSON"""
+    tasks = get(url + "todos?userId={}".format(user_id)).json()
 
-            # Print the response to inspect its structure
-            print("API Response:")
-            print(todos)
+    """ # Iterate through the tasks and check if they are completed,
+        if so, add them to the 'done' list"""
+    for task in tasks:
+        if task.get("completed"):
+            done.append(task.get("title"))
 
-            # You can then adapt your code based on the actual structure of the response.
+    """ # Print information about the employee's progress,
+        including name, completed tasks, and total tasks """
+    print("Employee {} is done with tasks({}/{}):"
+          .format(user["name"], len(done), len(tasks)))
 
-        else:
-            print(f"Failed to retrieve data. Status code: {response.status_code}")
+    """ # List the titles of completed tasks """
+    for task in done:
+        print("\t {}".format(task))
 
-    except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
-
+""" # Check if the script is being executed as the main program """
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-    get_employee_todo_list(employee_id)
+    """# Extract the employee ID from the command-line arguments
+        and call the 'get_data_api' function """
+    get_data_api(int(argv[1]))
