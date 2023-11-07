@@ -3,19 +3,35 @@
 A function that queries the Reddit API and prints the titles
 of the first 10 hot posts listed for a given subreddit.
 """
-from requests import get
 
+import requests
 
 def top_ten(subreddit):
-    """
-    The first top 10 best hot posts by subreddit
-    """
-    headers = {"user-agent": "Vlone Me"}
-    apiUrl = "https://api.reddit.com/r/{}/hot?limit=10".format(subreddit)
+    # Reddit API URL for the first 10 hot posts in a subreddit
+    api_url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+
+    # Set a custom User-Agent to avoid potential issues
+    headers = {
+        "User-Agent": "MyRedditBot/1.0 by Vlone Me"
+    }
+
     try:
-        data = get(apiUrl, headers=headers, allow_redirects=False).json()
-        hotPosts = data["data"]["children"]
-        for post in hotPosts:
-            print(post['data']['title'])
-    except Exception:
-        print("None")
+        # Send a GET request to the API without following redirects
+        response = requests.get(api_url, headers=headers, allow_redirects=False)
+
+        # Check if the response status code is 200 (OK)
+        if response.status_code == 200:
+            data = response.json()
+            hot_posts = data["data"]["children"]
+
+            # Print the titles of the first 10 hot posts
+            for post in hot_posts:
+                print(post['data']['title'])
+        else:
+            print("None")  # Invalid subreddit or other issues
+    except requests.exceptions.RequestException:
+        print("None")  # Request-related error
+
+# Example usage:
+subreddit_name = "learnpython"
+top_ten(subreddit_name)
