@@ -31,7 +31,3 @@ def top_ten(subreddit):
             print("None")  # Invalid subreddit or other issues
     except requests.exceptions.RequestException:
         print("None")  # Request-related error
-
-# Example usage:
-subreddit_name = "learnpython"
-top_ten(subreddit_name)
