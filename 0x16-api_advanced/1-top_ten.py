@@ -8,7 +8,7 @@ import requests
 
 def top_ten(subreddit):
     # Reddit API URL for the first 10 hot posts in a subreddit
-    api_url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    api_url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=9"
 
     # Set a custom User-Agent to avoid potential issues
     headers = {
