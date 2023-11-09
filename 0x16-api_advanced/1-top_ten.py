@@ -25,7 +25,7 @@ def top_ten(subreddit):
             hot_posts = data["data"]["children"]
 
             # Print the titles of the first 10 hot posts
-            for post in range(len(hot_posts) - 1):
+            for post in range(len(hot_posts)):
                 print(hot_posts[post]['data']['title'])
         else:
             print("None")  # Invalid subreddit or other issues
