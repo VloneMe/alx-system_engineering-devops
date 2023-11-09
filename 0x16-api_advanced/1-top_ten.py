@@ -8,7 +8,7 @@ import requests
 
 def top_ten(subreddit):
     # Reddit API URL for the first 10 hot posts in a subreddit
-    api_url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=9"
+    api_url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
 
     # Set a custom User-Agent to avoid potential issues
     headers = {
@@ -25,8 +25,8 @@ def top_ten(subreddit):
             hot_posts = data["data"]["children"]
 
             # Print the titles of the first 10 hot posts
-            for post in hot_posts:
-                print(post['data']['title'])
+            for post in range(len(hot_posts) - 1):
+                print(hot_posts[post]['data']['title'])
         else:
             print("None")  # Invalid subreddit or other issues
     except requests.exceptions.RequestException:
